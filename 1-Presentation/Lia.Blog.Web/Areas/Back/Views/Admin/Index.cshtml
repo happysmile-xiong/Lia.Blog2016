@@ -1,0 +1,47 @@
+﻿@using Lia.Blog.Domain.Entity
+@model IEnumerable<User>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="margin-top:15px;margin-bottom:15px;">
+    @Html.ActionLink("-角色管理-", "Index", "Role", new { area = "Back" })
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        User Accounts  
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        @if(!Model.Any())
+        {
+            <tr><td colspan="4" class="text-center">No User Accounts</td></tr>
+        }
+        else
+        {
+            foreach(User user in Model)
+            {
+                <tr>
+                    <td>@(user.Id)</td>
+                    <td>@(user.UserName)</td>
+                    <td>@(user.Email)</td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Admin", new { area = "Back", id = user.Id }, FormMethod.Post))
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Admin", new { area = "Back", id = user.Id }, new { @class = "btn btn-primary btn-xs" })
+                            <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+@Html.ActionLink("Register", "Register", "Account", new { area = "Front" }, new { @class="btn btn-primary"})
+

@@ -1,0 +1,27 @@
+﻿@using Lia.Blog.Domain.Dto
+@{
+    ViewBag.Title = "Login";
+}
+@model LoginDto
+<h2>@(ViewBag.Title)</h2>
+
+@Html.ValidationSummary(false)
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+    <input type="hidden" name="returnUrl" value="@(ViewBag.returnUrl)" />
+    <div class="form-group">
+        <label>Name：</label>
+        @Html.TextBoxFor(l=>l.UserName,new { @class= "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        @Html.PasswordFor(l => l.Password, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.CheckBoxFor(l=>l.IsRemember)
+        <label>自动登录</label>
+    </div>
+    <button class="btn btn-primary" type="submit">Login</button>
+}
+

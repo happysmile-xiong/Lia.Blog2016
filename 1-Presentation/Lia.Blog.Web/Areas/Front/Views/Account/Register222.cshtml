@@ -1,0 +1,44 @@
+﻿@using Lia.Blog.Domain.Dto
+@{
+    ViewBag.Title = "Register";
+}
+@model UserViewDto
+<h2>Register</h2>
+
+@using (Html.BeginForm("Register", "Login", new { area = "Front" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div>
+    <div>
+        用户名：@Html.TextBoxFor(m => m.UserName)
+    </div>
+    <div>
+        昵  称：@Html.TextBoxFor(m => m.NickName)
+    </div>
+    <div>
+        邮  箱：@Html.TextBoxFor(m => m.Email)
+    </div>
+    <div>
+        密  码：@Html.PasswordFor(m => m.Password)
+    </div>
+    <div>
+        确认密码：<input type="password" id="confirmPass" name="confirmPass" />
+    </div>
+    <div>
+        <input type="submit" class="button" value="注册" />
+    </div>
+</div>
+}
+
+<script type="text/javascript">
+    @MvcHtmlString.Create(ViewBag.SubmitResult)
+
+    function CallBack(resultCode, resultMsg)
+    {
+        var msg = resultCode == 1 ? "注册成功，请登录。" : resultMsg;
+        alert(msg);
+        if (resultCode == 1)
+        {
+            location.href = "/Front/Login";
+        }
+    }
+</script>

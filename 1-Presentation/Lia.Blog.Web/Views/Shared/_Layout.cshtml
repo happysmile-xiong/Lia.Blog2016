@@ -1,0 +1,55 @@
+﻿@using Lia.Blog.Domain;
+@using Lia.Blog.Web.Controllers;
+@{ 
+    var user = BaseController.CurrentUser;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <style>
+        .container {
+        padding-top:10px;
+        }
+
+        .validation-summary-errors {
+        color:#f00;
+        }
+    </style>
+</head>
+<body>
+    @*<div class="container">
+       
+    </div>*@
+    <div class="container body-content">
+        <header>
+            @if (user != null&& (!string.IsNullOrEmpty(user.Id)))
+            {
+                <text><span style="margin:10px;">@(user.UserName)，您好~~</span></text>
+                if (BaseController.IsAdmin)
+                {
+                    @(Html.ActionLink("-管理-", "Index", "Admin", new { area = "Back" }, new { @style = "margin-left:20px;" }))
+                }
+                @Html.ActionLink("-退出-", "Logout", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" })
+            }
+            else
+            {   <text><span style="margin:10px;">游客，您好~~</span></text>
+                @(Html.ActionLink("-登录-", "Login", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" }))
+                @(Html.ActionLink("-注册-", "Register", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" }))
+            }
+        </header>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
