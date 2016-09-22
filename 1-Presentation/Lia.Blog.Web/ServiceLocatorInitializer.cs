@@ -21,10 +21,15 @@ namespace Lia.Blog.Web
             
             container.RegisterType<IDbContext, BlogDbContext>();
             container.RegisterType<IUnitOfWork, UnitOfWork>();
-
+            
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IUserService, UserService>();
 
+            container.RegisterType<IBlogRepository, BlogRepository>();
+            container.RegisterType<IBlogService, BlogService>();
+
+            container.RegisterType<ICategoryRepository, CategoryRepository>();
+            container.RegisterType<ICategoryService, CategoryService>();
 
             var locator = new UnityServiceLocator(container);
             ServiceLocator.SetLocatorProvider(()=>locator);

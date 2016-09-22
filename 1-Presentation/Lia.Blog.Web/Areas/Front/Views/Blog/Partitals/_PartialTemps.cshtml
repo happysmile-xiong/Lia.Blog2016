@@ -1,0 +1,20 @@
+﻿
+<script id="BlogTemplate" type="text/x-jquery-tmpl">
+    <div class="post_item" id="item_${Id}">
+        <div class="post_item_body" onclick="index.RowCLick(this)">
+            <div class="title">
+                <h3>
+                    <a href="${Url}" target="_blank">${Title}</a></h3>
+            </div>
+            <div class="post_item_summary">${Summary}</div>
+            <div class="post_item_foot">
+                <a href="" class="lightblue">${AuthorName}</a>
+                发布于 ${PostTime}
+                <span class="article_comment">
+                    <a href="" title="2016-09-21 10:14" class="gray">评论(0)</a>
+                </span>
+                <span class="article_view"><a href="" class="gray">阅读(0)</a></span>
+            </div>
+        </div>
+    </div>
+</script>

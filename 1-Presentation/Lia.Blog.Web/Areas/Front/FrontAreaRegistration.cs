@@ -17,7 +17,7 @@ namespace Lia.Blog.Web.Areas.Front
             context.MapRoute(
                 "Front_default",
                 "Front/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional },
+                new { controller= "Blog", action = "Index", id = UrlParameter.Optional },
                 null,
                 new string[] { "Lia.Blog.Web.Controllers.Front" }
             );

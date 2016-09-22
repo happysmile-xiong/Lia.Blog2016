@@ -68,8 +68,12 @@
     <Compile Include="Entity\User.cs" />
     <Compile Include="IAggregateRoot.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IRepository\IBlogRepository.cs" />
+    <Compile Include="IRepository\ICategoryRepository.cs" />
     <Compile Include="IRepository\IRepository.cs" />
     <Compile Include="IRepository\IUserRepository.cs" />
+    <Compile Include="Model\PageExtension.cs" />
+    <Compile Include="Model\PageParameter.cs" />
     <Compile Include="Model\RoleEditModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

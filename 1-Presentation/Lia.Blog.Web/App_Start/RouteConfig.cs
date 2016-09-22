@@ -16,7 +16,7 @@ namespace Lia.Blog.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                defaults: new { controller = "Blog", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "Lia.Blog.Web.Controllers.Front" }
             ).DataTokens.Add("Area", "Front"); //默认area 的控制器名称
         }

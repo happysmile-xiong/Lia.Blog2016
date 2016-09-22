@@ -27,29 +27,33 @@
     </div>*@
     <div class="container body-content">
         <header>
-            @if (user != null&& (!string.IsNullOrEmpty(user.Id)))
+            @if (user != null && (!string.IsNullOrEmpty(user.Id)))
             {
                 <text><span style="margin:10px;">@(user.UserName)，您好~~</span></text>
                 if (BaseController.IsAdmin)
                 {
                     @(Html.ActionLink("-管理-", "Index", "Admin", new { area = "Back" }, new { @style = "margin-left:20px;" }))
                 }
-                @Html.ActionLink("-退出-", "Logout", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" })
+
+                @(Html.ActionLink("[我的首页]", "Index", "Home", new { area = "Front" }, new { @style = "margin-left:20px;" }))
+
+                @(Html.ActionLink("-退出-", "Logout", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" }))
             }
             else
-            {   <text><span style="margin:10px;">游客，您好~~</span></text>
+            {   <text><span style = "margin:10px;"> 游客，您好~~</span></text>
                 @(Html.ActionLink("-登录-", "Login", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" }))
                 @(Html.ActionLink("-注册-", "Register", "Account", new { area = "Front" }, new { @style = "margin-left:20px;" }))
             }
         </header>
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="text-center">
+            <p>&copy; @DateTime.Now.Year - LiaBlog</p>
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery-3.1.0.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    @RenderSection("footer", false)
 </body>
 </html>

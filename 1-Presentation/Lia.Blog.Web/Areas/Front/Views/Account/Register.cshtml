@@ -3,7 +3,6 @@
     ViewBag.Title = "Register";
 }
 
-<h2>@ViewBag.Title</h2>
 
 @Html.ValidationSummary(false)
 @using (Html.BeginForm("Register", "Account", new { area = "Front" }, FormMethod.Post, new { enctype = "multipart/form-data" }))

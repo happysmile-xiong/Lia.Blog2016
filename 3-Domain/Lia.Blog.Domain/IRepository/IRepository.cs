@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lia.Blog.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,9 @@ namespace Lia.Blog.Domain.IRepository
         IQueryable<TEntity> Get(string id);
 
         IQueryable<TEntity> GetAll();
+
+        Task<bool> Insert(TEntity entity);
+
+        IQueryable<TEntity> GetListByPage(PageParameter parameter);
     }
 }

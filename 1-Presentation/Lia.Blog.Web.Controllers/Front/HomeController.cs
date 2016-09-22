@@ -1,4 +1,8 @@
-﻿using Lia.Blog.Domain.Entity;
+﻿using Lia.Blog.Application.Interfaces;
+using Lia.Blog.Domain.Entity;
+using Lia.Blog.Domain.Model;
+using Lia.Blog.Utils;
+using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +12,25 @@ using System.Web.Mvc;
 
 namespace Lia.Blog.Web.Controllers.Front
 {
+    [Authorize]
     public class HomeController : BaseController
     {
-        [Authorize]
+        private readonly IBlogService _blogService;
+        public HomeController()
+        {
+            _blogService = ServiceLocator.Current.GetInstance<IBlogService>();
+        }
+        
         public ActionResult Index()
         {
-            return View(GetData("Index"));
+            var parameter = new BlogParameter()
+            {
+                AuthorId = CurrentUser.Id,
+                PageIndex = RequestHelper.Query("p").ToInt(0),
+                PageSize = 20
+            };
+            var list = _blogService.GetBlogList(parameter).ToList();
+            return View(list);
         }
 
         [Authorize(Roles = "Users")]

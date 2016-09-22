@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/Front/Blog/index.css?v=0921")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/pager.css?v=0921")" rel="stylesheet" type="text/css"/>
+<div id="post_list">
+</div>
+
+<div class="loading" id="loading">
+    <img src="@Url.Content("~/Content/Images/loading.gif")" alt="正在努力为您加载" />
+    正在努力为您加载……
+</div>
+<div class="nodata hide" id="nodata">无数据</div>
+
+<div id="pagination" class="pageinfo"></div>
+
+@Html.Partial("~/Areas/Front/Views/Blog/Partitals/_PartialTemps.cshtml")
+@section footer
+{
+    <script src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-pager-1.0.js")"></script>
+    <script src="@Url.Content("~/Scripts/Front/Blog/Index.js?v=0920")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Index.Init();
+        });
+    </script>
+}
+
+
+
+

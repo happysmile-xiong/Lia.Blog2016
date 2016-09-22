@@ -33,7 +33,7 @@ namespace Lia.Blog.Web.Controllers
 
         public static User CurrentUser
         {
-            get;set;
+            get; set;
         }
 
         public static bool IsAdmin

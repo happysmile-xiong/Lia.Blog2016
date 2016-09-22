@@ -11,7 +11,7 @@ namespace Lia.Blog.Repository
 {
     public class UserRepository : BaseRepository<User,string>, IUserRepository
     {
-        public UserRepository(IDbContext dbContext):base(dbContext)
+        public UserRepository(IDbContext dbContext) : base(dbContext)
         {
         }
 

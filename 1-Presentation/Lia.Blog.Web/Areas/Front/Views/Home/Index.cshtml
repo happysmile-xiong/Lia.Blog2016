@@ -1,12 +1,36 @@
-﻿
+﻿@using Lia.Blog.Domain.Entity
 @{
     ViewBag.Title = "Index";
 }
 
+<div style="margin-top:20px;margin-bottom:20px;">
+    @(Html.ActionLink("-添加新博客-", "Form", "Blog", new { area = "Front" }, new { @style = "margin-left:20px;" }))
+</div>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">我的博客</div>
+    <div>
+        <ul>
+            @if (Model != null)
+            {
+                foreach (BlogInfo view in Model)
+                {
+                    <li style="line-height:40px;"><a href="@(view.Url)" target="_blank">@(view.Title)</a></li>
+                }
+            }
+        </ul>
+    </div>
+</div> 
+
+
+
+@*<hr>
+<hr>
 <div class="panel panel-primary">
     <div class="panel-heading">User Details</div>
     <table class="table table-striped">
-        @foreach (string key in Model.Keys)
+        @foreach (string key in Model.User.Keys)
         {
             <tr>
                 <th>@key</th>
@@ -14,5 +38,5 @@
             </tr>
         }
     </table>
-</div> 
+</div>*@ 
 

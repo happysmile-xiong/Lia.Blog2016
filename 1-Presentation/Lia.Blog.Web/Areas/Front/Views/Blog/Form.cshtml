@@ -1,0 +1,65 @@
+﻿@model Lia.Blog.Web.Models.BlogItem
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ValidationSummary(false)
+@using (Html.BeginForm("Form", "Blog", new { area = "Front" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label>标题：</label>
+        @Html.TextBoxFor(model => model.Title, new { @class = "form-control",@style="width:800px;" })
+    </div>
+    <div class="form-group">
+        <label>内容：</label>
+        @Html.TextAreaFor(model=>model.Body, new {@class = "form-control", @style = "width:600px;height:400px;" })
+    </div>
+    <div class="form-group">
+        <label>分类：</label>
+        @Html.DropDownListFor(model=>model.CategoryId,(SelectList)ViewBag.Categories,"--选择分类--")
+    </div>
+    <button type="submit" class="btn btn-primary" onclick="return Check();">发布</button>
+    <button type="button" class="btn btn-default">取消</button>
+}
+@section footer{
+<script src="@Url.Content("~/Plug/tinymce/tinymce.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            tinymce.init({
+                selector: '#Body',
+                theme: "modern",
+                language: "zh_CN",
+                //定义载入插件
+                //plugins: "autolink,spellchecker,pagebreak,layer,table,save,advlist,emoticons,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,template,image,code,textcolor,wordcount",
+                plugins: [
+        　　　　"advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        　　　　"searchreplace wordcount visualblocks visualchars code fullscreen",
+        　　　　"insertdatetime media nonbreaking save table contextmenu directionality",
+        　　　　"emoticons template paste textcolor"// moxiemanager"
+                ],
+                toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                toolbar2: "print preview media | forecolor backcolor emoticons",
+                image_advtab: true,
+            });
+            //tinymce.init({ mode: 'exact', elements: 'Body', theme: 'advanced',language: "zh_CN" });
+        });
+
+        function Check() {
+            //if ($("#Title").val() == "") {
+            //    alert("标题不能为空");
+            //    return false
+            //}
+            //var content = tinymce.get('Body').getContent();
+            //if (content == "") {
+            //    alert("内容不能为空");
+            //    return false;
+            //}
+            //if ($("#CategoryId").val() == "" || $("#CategoryId").val() == "0") {
+            //    alert("请选择分类");
+            //    return false;
+            //}
+        }
+    </script>
+    }
+

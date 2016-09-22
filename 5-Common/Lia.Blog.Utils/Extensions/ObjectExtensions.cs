@@ -40,6 +40,10 @@ namespace Lia.Blog.Utils.Extensions
             {
                 return Guid.Parse(value.ToString());
             }
+            if (conversionType == typeof(string))
+            {
+                return value.ToString();
+            }
             return Convert.ChangeType(value, conversionType);
         }
 

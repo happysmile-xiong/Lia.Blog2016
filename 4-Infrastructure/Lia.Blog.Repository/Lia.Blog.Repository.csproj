@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="BlogRepository.cs" />
+    <Compile Include="CategoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
@@ -67,6 +69,10 @@
     <ProjectReference Include="..\Lia.Blog.Infrastructure.Interfaces\Lia.Blog.Infrastructure.Interfaces.csproj">
       <Project>{4B8A6088-D610-468D-BCC0-3661A9E6DC07}</Project>
       <Name>Lia.Blog.Infrastructure.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lia.Blog.Infrastructure\Lia.Blog.Infrastructure.csproj">
+      <Project>{92362F47-A928-408A-9883-5A35439AA696}</Project>
+      <Name>Lia.Blog.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
