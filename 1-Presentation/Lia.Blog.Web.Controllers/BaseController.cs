@@ -31,6 +31,29 @@ namespace Lia.Blog.Web.Controllers
             }
         }
 
+        protected ActionResult Error(string error)
+        {
+            ModelState.AddModelError("", error);
+            return View();
+        }
+
+        protected ActionResult Javascript(string alertMsg = "", string goUrl = "")
+        {
+            StringBuilder result = new StringBuilder();
+            if (string.IsNullOrEmpty(alertMsg) && string.IsNullOrEmpty(goUrl))
+                return View();
+
+            result.Append("<script>");
+            if (!string.IsNullOrEmpty(alertMsg))
+                result.AppendFormat("alert('{0}');", alertMsg);
+            if (!string.IsNullOrEmpty(goUrl))
+                result.AppendFormat("location.href='{0}';", goUrl);
+
+            result.Append("</script>");
+
+            return Content(result.ToString());
+        }
+
         public static User CurrentUser
         {
             get; set;

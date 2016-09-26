@@ -1,0 +1,24 @@
+﻿@model Lia.Blog.Web.Models.BlogDetail
+@{
+    ViewBag.Title = string.Format("{0}- {1} - {2}", Model.Title, Model.AuthorName, "LiaBlog");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="@(Url.Content("~/Content/Front/Blog/detail.css"))" type="text/css" rel="stylesheet" />
+
+<div id="post_detail">
+    <div class="post">
+        <h2>
+            <a href="@(Model.Url)" target="_self">@(Model.Title)</a>
+        </h2>
+    </div>
+    <div class="postText">
+        <div id="cnblogs_post_body">@MvcHtmlString.Create(Model.Body)</div>
+        
+    </div>
+    <div class="blog_post_info_block">
+        <div id="BlogPostCategory">分类：<a href="">@(Model.CategoryName)</a></div>
+    </div>
+</div>
+
+

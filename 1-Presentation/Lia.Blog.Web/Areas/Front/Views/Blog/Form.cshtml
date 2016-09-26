@@ -46,19 +46,19 @@
         });
 
         function Check() {
-            //if ($("#Title").val() == "") {
-            //    alert("标题不能为空");
-            //    return false
-            //}
-            //var content = tinymce.get('Body').getContent();
-            //if (content == "") {
-            //    alert("内容不能为空");
-            //    return false;
-            //}
-            //if ($("#CategoryId").val() == "" || $("#CategoryId").val() == "0") {
-            //    alert("请选择分类");
-            //    return false;
-            //}
+            if ($("#Title").val() == "") {
+                alert("标题不能为空");
+                return false
+            }
+            var content = tinymce.get('Body').getContent();
+            if (content == "") {
+                alert("内容不能为空");
+                return false;
+            }
+            if ($("#CategoryId").val() == "" || $("#CategoryId").val() == "0") {
+                alert("请选择分类");
+                return false;
+            }
         }
     </script>
     }

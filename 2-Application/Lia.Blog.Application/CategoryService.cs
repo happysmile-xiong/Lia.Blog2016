@@ -20,7 +20,12 @@ namespace Lia.Blog.Application
 
         public IList<Category> GetCategories()
         {
-            return _caregoryRepository.GetAll().ToList();
+            return _caregoryRepository.GetList().ToList();
+        }
+
+        public Category GetCateById(string id)
+        {
+            return _caregoryRepository.GetById(id);
         }
     }
 }

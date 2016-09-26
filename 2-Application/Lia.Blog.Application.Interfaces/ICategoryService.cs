@@ -10,5 +10,7 @@ namespace Lia.Blog.Application.Interfaces
     public interface ICategoryService
     {
         IList<Category> GetCategories();
+
+        Category GetCateById(string id);
     }
 }

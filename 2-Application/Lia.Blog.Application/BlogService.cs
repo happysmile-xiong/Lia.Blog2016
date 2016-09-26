@@ -23,15 +23,20 @@ namespace Lia.Blog.Application
             _blogRepository = blogRepository;
         }
 
+        public BlogInfo GetBlogById(string blogId)
+        {
+            return _blogRepository.GetById(blogId);
+        }
+
         public IQueryable<BlogInfo> GetBlogList(BlogParameter parameter)
         {
             var result = _blogRepository.GetBlogList(parameter);
             return result;
         }
 
-        public async Task<bool> Insert(BlogInfo blog)
+        public async Task<bool> Save(BlogInfo blog, bool isAdd = false)
         {
-           return await _blogRepository.Insert(blog);
+            return await _blogRepository.Save(blog, isAdd);
         }
     }
 }

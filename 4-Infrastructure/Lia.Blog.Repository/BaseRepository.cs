@@ -5,31 +5,44 @@ using Lia.Blog.Infrastructure;
 using Lia.Blog.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lia.Blog.Repository
 {
-    public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity,TKey> where TEntity : class,IEntity<TKey>
+    public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity,TKey> 
+        where TEntity : class,IEntity<TKey>
+        where TKey : IEquatable<TKey>
     {
-        public readonly IQueryable<TEntity> _entities;
+        public readonly DbSet<TEntity> _entities;
         public readonly IDbContext _context;
 
         public BaseRepository(IDbContext dbContext)
         {
-            _context = dbContext;//(BlogDbContext)dbContext;
+            _context = dbContext;
             _entities = dbContext.Set<TEntity>();
         }
 
-        public IQueryable<TEntity> Get(string id)
+        public TEntity GetById(TKey id)
         {
-            return _entities.Where(t => t.Id.Equals(id));
+            if (id == null || string.IsNullOrEmpty(id.ToString()))
+                return null;
+            return this.GetList(t => t.Id.Equals(id)).FirstOrDefault();
         }
 
-        public IQueryable<TEntity> GetAll()
+        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> strWhere = null, bool isAsNoTracking = true)
         {
-            return _entities;
+            var list = _entities.AsQueryable();
+            if (strWhere != null)
+                list.Where(strWhere);
+            if (isAsNoTracking)
+                list = _entities.AsNoTracking().AsQueryable();
+            
+            return list;
         }
 
         public IQueryable<TEntity> GetListByPage(PageParameter parameter)
@@ -43,15 +56,36 @@ namespace Lia.Blog.Repository
                 parameter.PageSize = 30;
             if (parameter.PageIndex == 0)
                 parameter.PageIndex = 1;
-            return this.GetAll().GetPageList<TEntity>(parameter);
+            return this.GetList().GetPageList<TEntity>(parameter);
+        }
+
+        public async Task<bool> Save(TEntity entity, bool isAdd = false)
+        {
+            entity.LastModifiedTime = DateTime.Now;
+            if(isAdd)
+            {
+                entity.CreationTime = DateTime.Now;
+                _entities.Add(entity);
+            }
+            else
+            {
+                _context.Entry<TEntity>(entity).State = EntityState.Modified;
+            }
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> Insert(TEntity entity)
         {
             entity.CreationTime = DateTime.Now;
             entity.LastModifiedTime = DateTime.Now;
-            _context.Set<TEntity>().Attach(entity);
-            _context.Entry<TEntity>(entity).State = System.Data.Entity.EntityState.Added;
+            _entities.Add(entity);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> Update(TEntity entity)
+        {
+            entity.LastModifiedTime = DateTime.Now;
+            _context.Entry<TEntity>(entity).State = EntityState.Modified;
             return await _context.SaveChangesAsync() > 0;
         }
     }

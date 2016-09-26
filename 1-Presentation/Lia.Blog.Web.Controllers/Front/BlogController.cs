@@ -18,11 +18,13 @@ namespace Lia.Blog.Web.Controllers.Front
     {
         private readonly IBlogService _blogService;
         private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
 
         public BlogController()
         {
             _blogService = ServiceLocator.Current.GetInstance<IBlogService>();
             _categoryService = ServiceLocator.Current.GetInstance<ICategoryService>();
+            _userService = ServiceLocator.Current.GetInstance<IUserService>();
         }
 
         [AllowAnonymous]
@@ -44,11 +46,24 @@ namespace Lia.Blog.Web.Controllers.Front
             var list = new List<BlogModel>().Bind(_blogService.GetBlogList(parameter));
             return Json(new { Items = list, TotalCount = parameter.RecordCount }, JsonRequestBehavior.AllowGet);
         }
-        
-        public ActionResult Form()
+
+        [AllowAnonymous]
+        public ActionResult Detail(string id = "")
+        {
+            var model = _blogService.GetBlogById(id);
+            var cate = _categoryService.GetCateById(model.CategoryId);
+            var user = _userService.GetUserById(model.AuthorId);
+            var view = new BlogDetail() { Url = string.Format("/Front/Blog/{0}", model.Url), Title = model.Title, Body = model.Body, AuthorName = user == null ? "" : user.UserName, CategoryName = cate == null ? "" : cate.CategoryName };
+            return View(view);
+        }
+
+
+        public ActionResult Form(string id = "")
         {
             GetCategories();
-            return View();
+            var model = _blogService.GetBlogById(id);
+            var view = new BlogItem() { Id = model.Id, Title = model.Title, Body = model.Body, CategoryId = model.CategoryId };
+            return View(view);
         }
 
         [ValidateInput(false)]
@@ -56,38 +71,32 @@ namespace Lia.Blog.Web.Controllers.Front
         public async Task<ActionResult> Form(BlogItem view)
         {
             GetCategories();
-
             if (CurrentUser == null || string.IsNullOrEmpty(CurrentUser.Id))
-                return Content("<script>alert('用户信息无效，请重新登录');location.href='/Front/Account/Login';</script>");
-
+                return Javascript("用户信息无效，请重新登录", "/Front/Account/Login");
             if (string.IsNullOrEmpty(view.Title))
-            {
-                ModelState.AddModelError("", "标题不能为空");
-                return View();
-            }
+                return Error("标题不能为空");
             if (string.IsNullOrEmpty(view.Body))
-            {
-                ModelState.AddModelError("", "内容不能为空");
-                return View();
-            }
+                return Error("内容不能为空");
             if (string.IsNullOrEmpty(view.CategoryId))
-            {
-                ModelState.AddModelError("", "请选择分类");
-                return View();
-            }
+                return Error("请选择分类");
             if (ModelState.IsValid)
             {
-                var model = new BlogInfo()
+                var model = _blogService.GetBlogById(view.Id);
+                var isAdd = false;
+                if (model == null)//新增
                 {
-                    Title = view.Title,
-                    Body = view.Body,
-                    CategoryId = view.CategoryId,
-                    AuthorId = CurrentUser.Id,
-                    Url = "1234.html",
-                    IsForwarding = false
-                };
-                await _blogService.Insert(model);
-                return Content("<script>alert('添加成功');location.href='/Front/Home/Index';</script>");
+                    isAdd = true;
+                    model = new BlogInfo();
+                    model.AuthorId = CurrentUser.Id;
+                    model.Url = string.Format("Form/{0}", model.Id);//"1234.html";
+                    model.IsForwarding = false;
+                }
+                model.Title = view.Title;
+                model.Body = view.Body;
+                model.CategoryId = view.CategoryId;
+                await _blogService.Save(model, isAdd);
+                var msg = string.Concat(isAdd ? "添加" : "修改", "成功");
+                return Javascript(msg, "/Front/Home/Index");
             }
             return View();
         }

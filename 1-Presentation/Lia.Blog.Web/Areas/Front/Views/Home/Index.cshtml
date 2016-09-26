@@ -16,7 +16,7 @@
             {
                 foreach (BlogInfo view in Model)
                 {
-                    <li style="line-height:40px;"><a href="@(view.Url)" target="_blank">@(view.Title)</a></li>
+                    <li style="line-height:40px;"><a href="@(string.Format("/Front/Blog/Form/{0}",view.Id))" target="_blank">@(view.Title)</a></li>
                 }
             }
         </ul>

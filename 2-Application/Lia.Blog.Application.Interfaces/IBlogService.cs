@@ -10,8 +10,10 @@ namespace Lia.Blog.Application.Interfaces
 {
     public interface IBlogService
     {
+        BlogInfo GetBlogById(string blogId);
+
         IQueryable<BlogInfo> GetBlogList(BlogParameter parameter);
 
-        Task<bool> Insert(BlogInfo blog);
+        Task<bool> Save(BlogInfo blog, bool isAdd = false);
     }
 }

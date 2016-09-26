@@ -10,6 +10,7 @@ namespace Lia.Blog.Web.Models
     public class BlogModel
     {
         public string Id { get; set; }
+        public string Url { get; set; }
         public string Title { get; set; }
         public string Summary { get; set; }
 
@@ -22,8 +23,19 @@ namespace Lia.Blog.Web.Models
         public int ReadNum { get; set; }
     }
 
+    public class BlogDetail {
+        public string Url { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+
+        public string CategoryName { get; set; }
+
+        public string AuthorName { get; set; }
+    }
+
     public class BlogItem {
         public string Id { get; set; }
+        public string Url { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         
@@ -40,6 +52,7 @@ namespace Lia.Blog.Web.Models
                 return null;
 
             view.Id = blog.Id;
+            view.Url = string.Format("/Front/Blog/{0}", blog.Url);
             view.Title = blog.Title;
             view.Summary = string.Concat(blog.Body.Length <= 150 ? blog.Body : blog.Body.Substring(0, 150), "...");
             view.AuthorName = blog.AuthorName;
@@ -57,6 +70,7 @@ namespace Lia.Blog.Web.Models
             var result = blogs.Select(b => new
             {
                 Id = b.Id,
+                Url = b.Url,
                 Title = b.Title,
                 Body = b.Body,
                 AuthorName = b.User.NickName,

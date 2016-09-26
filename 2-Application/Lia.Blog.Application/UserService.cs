@@ -24,6 +24,11 @@ namespace Lia.Blog.Application
             _userRepository = userRepository;
         }
 
+        public User GetUserById(string userId)
+        {
+            return _userRepository.GetById(userId);
+        }
+
         public ResultCode Login(UserViewDto mLogin)
         {
             User mUser = null;

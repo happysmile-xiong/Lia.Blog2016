@@ -1,0 +1,32 @@
+﻿body {
+}
+
+#post_detail {
+padding-top:20px;
+}
+
+.post {
+    padding-left: 70px;
+    padding-right: 40px;
+    font-size: 10pt;
+    line-height: 150%;
+}
+
+.postText {
+    padding-top:20px;
+font-size: 10pt;
+line-height: 1.8;
+}
+
+#cnblogs_post_body {
+word-break: break-word;
+margin-bottom: 20px;
+}
+
+#blog_post_info_block {
+margin-top: 20px;
+}
+
+#BlogPostCategory {
+margin-bottom: 10px;
+}
