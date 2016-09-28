@@ -1,8 +1,10 @@
 ﻿@using Lia.Blog.Domain;
 @using Lia.Blog.Web.Controllers;
+@using StackExchange.Profiling;
 @{ 
     var user = BaseController.CurrentUser;
 }
+@MiniProfiler.RenderIncludes();
 <!DOCTYPE html>
 <html>
 <head>

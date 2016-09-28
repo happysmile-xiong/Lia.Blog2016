@@ -4,6 +4,7 @@ using Lia.Blog.Domain.Model;
 using Lia.Blog.Utils;
 using Lia.Blog.Web.Models;
 using Microsoft.Practices.ServiceLocation;
+using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,18 +44,33 @@ namespace Lia.Blog.Web.Controllers.Front
                 OrderBy = RequestHelper.Query("orderby"),
                 IsAsc = RequestHelper.Query("sort").ToLower().Equals("asc"),
             };
-            var list = new List<BlogModel>().Bind(_blogService.GetBlogList(parameter));
-            return Json(new { Items = list, TotalCount = parameter.RecordCount }, JsonRequestBehavior.AllowGet);
+            var profiler = MiniProfiler.Current;
+            using (profiler.Step("查询博客列表"))
+            {
+                var list = new List<BlogModel>().Bind(_blogService.GetBlogList(parameter), parameter.RecordCount);
+                return Json(new { Items = list, TotalCount = parameter.RecordCount }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [AllowAnonymous]
         public ActionResult Detail(string id = "")
         {
-            var model = _blogService.GetBlogById(id);
-            var cate = _categoryService.GetCateById(model.CategoryId);
-            var user = _userService.GetUserById(model.AuthorId);
-            var view = new BlogDetail() { Url = string.Format("/Front/Blog/{0}", model.Url), Title = model.Title, Body = model.Body, AuthorName = user == null ? "" : user.UserName, CategoryName = cate == null ? "" : cate.CategoryName };
-            return View(view);
+            if (string.IsNullOrEmpty(id))
+                return View(new BlogDetail());
+            
+            var profiler = MiniProfiler.Current;
+            using (profiler.Step("根据博客id查询博客"))
+            {
+                var view = _blogService.GetList(t => t.Id.Equals(id)).Select(b => new BlogDetail()
+                {
+                    Url = b.Url,
+                    Title = b.Title,
+                    Body = b.Body,
+                    AuthorName = b.User == null ? "" : b.User.NickName,
+                    CategoryName = b.Category == null ? "" : b.Category.CategoryName
+                }).FirstOrDefault();
+                return View(view);
+            }
         }
 
 

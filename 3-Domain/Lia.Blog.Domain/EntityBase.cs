@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lia.Blog.Domain
 {
-    public abstract class EntityBase<TKey> : IEntity<TKey> where TKey : IEquatable<TKey>
+    public abstract class EntityBase<TKey> : IEntity<TKey>
     {
         /// <summary>
         /// 初始化一个<see cref="EntityBase{TKey}"/>类型的新实例

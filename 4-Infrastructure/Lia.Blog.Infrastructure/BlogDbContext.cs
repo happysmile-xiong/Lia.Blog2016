@@ -17,8 +17,11 @@ namespace Lia.Blog.Infrastructure
     {
         public BlogDbContext() : base("name=BlogConn")
         {
+            this.Configuration.LazyLoadingEnabled = true;
+            Database.SetInitializer<BlogDbContext>(null);
+            //生产环境，可以把这个给禁用了以提高性能
             //每次重新启动总是初始化数据库到最新版本（连接字符串为“BlogConn”）
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BlogDbContext, Configuration>("BlogConn"));
+            // Database.SetInitializer(new MigrateDatabaseToLatestVersion<BlogDbContext, Configuration>("BlogConn"));
         }
 
         public static BlogDbContext Create()

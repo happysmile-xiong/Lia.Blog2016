@@ -62,9 +62,9 @@ namespace Lia.Blog.Web.Models
             return view;
         }
 
-        public static IList<BlogModel> Bind(this IList<BlogModel> list, IQueryable<BlogInfo> blogs)
+        public static IList<BlogModel> Bind(this IList<BlogModel> list, IQueryable<BlogInfo> blogs,int count=0)
         {
-            if (blogs == null || (!blogs.Any()))
+            if (count <= 0)//(blogs == null || (!blogs.Any()))
                 return list;
             
             var result = blogs.Select(b => new

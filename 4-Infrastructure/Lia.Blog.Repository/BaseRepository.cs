@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace Lia.Blog.Repository
 {
     public abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity,TKey> 
-        where TEntity : class,IEntity<TKey>
+        where TEntity : class, IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         public readonly DbSet<TEntity> _entities;
@@ -31,17 +31,17 @@ namespace Lia.Blog.Repository
         {
             if (id == null || string.IsNullOrEmpty(id.ToString()))
                 return null;
-            return this.GetList(t => t.Id.Equals(id)).FirstOrDefault();
+            return GetList(t => t.Id.Equals(id)).FirstOrDefault();
         }
 
-        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> strWhere = null, bool isAsNoTracking = true)
+        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> strWhere = null, bool isAsNoTracking = true)//, Expression<Func<TEntity, TTb>> tableName = null)
         {
             var list = _entities.AsQueryable();
             if (strWhere != null)
-                list.Where(strWhere);
+                list = list.Where(strWhere);
             if (isAsNoTracking)
-                list = _entities.AsNoTracking().AsQueryable();
-            
+                list = list.AsNoTracking();
+
             return list;
         }
 

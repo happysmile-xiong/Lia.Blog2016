@@ -6,6 +6,7 @@ using Lia.Blog.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,11 @@ namespace Lia.Blog.Application
         public BlogInfo GetBlogById(string blogId)
         {
             return _blogRepository.GetById(blogId);
+        }
+
+        public IQueryable<BlogInfo> GetList(Expression<Func<BlogInfo, bool>> strWhere = null, bool isAsNoTracking = true)
+        {
+            return _blogRepository.GetList(strWhere, isAsNoTracking);
         }
 
         public IQueryable<BlogInfo> GetBlogList(BlogParameter parameter)

@@ -9,7 +9,7 @@
 <div id="post_detail">
     <div class="post">
         <h2>
-            <a href="@(Model.Url)" target="_self">@(Model.Title)</a>
+            <a href="@(string.Format("/Front/Blog/{0}", Model.Url))" target="_self">@(Model.Title)</a>
         </h2>
     </div>
     <div class="postText">
